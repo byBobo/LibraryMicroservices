@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  booksservices:
+    image: ${DOCKER_REGISTRY-}booksservices
+    build:
+      context: .
+      dockerfile: BooksServices/Dockerfile
+
+  customersservice:
+    image: ${DOCKER_REGISTRY-}customersservice
+    build:
+      context: .
+      dockerfile: CustomersService/Dockerfile
+
+
+  borrowingsservice:
+    image: ${DOCKER_REGISTRY-}borrowingsservice
+    build:
+      context: .
+      dockerfile: BorrowingsService/Dockerfile
+    depends_on:
+    - db
+  
+  db:
+    image: "mcr.microsoft.com/mssql/server:2017-latest"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=1Secure*Password1
+
