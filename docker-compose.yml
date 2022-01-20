@@ -3,62 +3,79 @@ version: '3.4'
 services:
   booksservices:
     image: ${DOCKER_REGISTRY-}booksservices
+    ports: 
+     - "44301:443"
     build:
       context: .
       dockerfile: BooksServices/Dockerfile
 
   customersservice:
     image: ${DOCKER_REGISTRY-}customersservice
+    ports: 
+     - "44302:443"
     build:
       context: .
       dockerfile: CustomersService/Dockerfile
 
-
   borrowingsservice:
     image: ${DOCKER_REGISTRY-}borrowingsservice
+    ports: 
+     - "44303:443"
     build:
       context: .
       dockerfile: BorrowingsService/Dockerfile
     depends_on:
     - db
-  
+
   db:
     image: "mcr.microsoft.com/mssql/server:2017-latest"
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=1Secure*Password1
 
-  elasticsearch:
-    container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
-    ports:
-    - 9200:9200
-    volumes:
-    - elasticsearch-data:/usr/share/elasticsearch/data
-    environment:
-    - xpack.monitoring.enabled=true
-    - xpack.watcher.enabled=false
-    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    - discovery.type=single-node
-    networks:
-    - elastic
 
-  kibana:
-    container_name: kibana
-    image: docker.elastic.co/kibana/kibana:7.9.2
-    ports:
-    - 5601:5601
-    depends_on:
-    - elasticsearch
-    environment:
-    - ELASTICSEARCH_URL=http://localhost:9200
-    networks:
-    - elastic
+      # [1]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+  es01:  
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2 
+    container_name: es01 
+    environment:  
+    - node.name=es01
+    - cluster.name=es-docker-cluster
+    - cluster.initial_master_nodes=es01
+    - bootstrap.memory_lock=true
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  
+    ulimits:
+     memlock:
+      soft: -1
+      hard: -1
+     nofile:
+      soft: 65535
+      hard: 65535
+    volumes:  
+    - data01:/usr/share/elasticsearch/data  
+    ports:  
+    - 9200:9200 
+    networks:  
+    - elastic 
+
   
-networks:
-  elastic:
-    driver: bridge
+  kib01:  
+    container_name: kibana  
+    image: docker.elastic.co/kibana/kibana:7.9.2
+    ports:  
+    - 5601:5601  
+    environment:  
+    - ELASTICSEARCH_URL=http://es01:9200
+    - ELASTICSEARCH_HOSTS=http://es01:9200  
+    networks:  
+    - elastic  
+    
+networks:  
+  elastic:  
+    driver: bridge  
 
 volumes:
-  elasticsearch-data:
+    dbdata:
+    data01:
+      driver: local
 

@@ -3,6 +3,7 @@ using BorrowingsService.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,10 +15,12 @@ namespace BorrowingsService.Controllers
     public class BorrowingsController : ControllerBase
     {
         private readonly IBorrowingService _borrowingService;
+        private readonly ILogger _logger;
 
-        public BorrowingsController(IBorrowingService borrowingService)
+        public BorrowingsController(IBorrowingService borrowingService, ILogger logger)
         {
             _borrowingService = borrowingService ?? throw new ArgumentNullException(nameof(borrowingService));
+            _logger = logger ?? throw new ArgumentNullException();
         }
 
         [HttpGet]
@@ -35,12 +38,15 @@ namespace BorrowingsService.Controllers
                 var borrowing = await _borrowingService.ReadOneAsync(id);
                 if (borrowing == null)
                 {
+                    _logger.Error(messageTemplate: $"Code 404 returned reading item with id {id} - operation failed.");
                     return NotFound();
-                }
+                                    }
+                _logger.Information(messageTemplate: $"Code 200 returned reading item with id {id} - operation properly completed.");
                 return Ok(borrowing);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.Error(ex, messageTemplate: $"An exceprion was throwned reading item with id {id}:");
                 throw;
             }
 
