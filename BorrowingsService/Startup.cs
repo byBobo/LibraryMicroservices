@@ -1,4 +1,5 @@
-using BorrowingsService.Data;
+using BorrowingsService.Repositories;
+using BorrowingsService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -30,6 +32,8 @@ namespace BorrowingsService
         {
             services.AddDbContext<AppDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("AppDbContext")));
+            services.TryAddScoped<IBorrowingRepository, BorrowingRepository>();
+            services.TryAddScoped<IBorrowingService, BorrowingService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

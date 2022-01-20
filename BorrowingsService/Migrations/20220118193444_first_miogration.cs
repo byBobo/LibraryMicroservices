@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BorrowingsService.Migrations
 {
-    public partial class first_migration : Migration
+    public partial class first_miogration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,10 +13,10 @@ namespace BorrowingsService.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    idCustomer = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    idBook = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    from = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    to = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CustomerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BookId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FromData = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ToData = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

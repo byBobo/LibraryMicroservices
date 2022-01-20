@@ -1,4 +1,4 @@
-using BorrowingsService.Data;
+using BorrowingsService.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

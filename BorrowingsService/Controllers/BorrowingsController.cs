@@ -1,8 +1,10 @@
-﻿using BorrowingsService.Data;
-using BorrowingsService.Models;
+﻿using BorrowingsService.Models;
+using BorrowingsService.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BorrowingsService.Controllers
@@ -11,60 +13,99 @@ namespace BorrowingsService.Controllers
     [ApiController]
     public class BorrowingsController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IBorrowingService _borrowingService;
 
-        public BorrowingsController(AppDbContext context)
+        public BorrowingsController(IBorrowingService borrowingService)
         {
-            _context = context;
+            _borrowingService = borrowingService ?? throw new ArgumentNullException(nameof(borrowingService));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> ReadAllAsync()
         {
-            var borrowings = await _context.Borrowings.ToListAsync();
-
-            return new JsonResult(borrowings);
+            var allBorrowings = await _borrowingService.ReadAllAsync();
+            return Ok(allBorrowings);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> ReadOneAsync(int id)
         {
-            var borrowing = await _context.Borrowings.FirstOrDefaultAsync(b => b.Id == id);
+            try
+            {
+                var borrowing = await _borrowingService.ReadOneAsync(id);
+                if (borrowing == null)
+                {
+                    return NotFound();
+                }
+                return Ok(borrowing);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
-            return new JsonResult(borrowing);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Borrowing borrowing)
+        public async Task<IActionResult> CreateAsync(Borrowing borrowing)
         {
-            _context.Borrowings.Add(borrowing);
-            await _context.SaveChangesAsync();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _borrowingService.CreateAsync(borrowing);
+                    //return CreatedAtAction(nameof(ReadOneAsync), new { id = borrowing.Id }, borrowing);
+                    return Ok();
+                }
+                else
+                    return BadRequest();
+            } 
+            catch (Exception)
+            {
+                throw;
+            }
+            
+        }
+        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAsync(int id, Borrowing borrowing) 
+        {
+            try
+            {
+                if (ModelState.IsValid && borrowing.Id == id)
+                {
+                    var result = await _borrowingService.UpdateAsync(id, borrowing);
+                    if (result != null)
+                        return Ok();
+                    else
+                        return NotFound();
+                }
+                else
+                    return BadRequest();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
-            return new JsonResult(borrowing.Id);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Put(int id, Borrowing borrowing)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            var existingBorrowing = await _context.Borrowings.FirstOrDefaultAsync(b => b.Id == id);
-            existingBorrowing.idCustomer = borrowing.idCustomer;
-            existingBorrowing.idBook = borrowing.idBook;
-            existingBorrowing.from = borrowing.from;
-            existingBorrowing.to = borrowing.to;
+            try
+            {
+                var result = await _borrowingService.DeleteAsync(id);
+                if (result != null)
+                    return Ok();
+                else
+                    return NotFound();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
-            var success = (await _context.SaveChangesAsync()) > 0;
-
-            return new JsonResult(success);
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var borrowing = await _context.Borrowings.FirstOrDefaultAsync(b => b.Id == id);
-            _context.Remove(borrowing);
-            var success = (await _context.SaveChangesAsync()) > 0;
-
-            return new JsonResult(success);
         }
     }
 }

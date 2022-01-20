@@ -7,9 +7,13 @@ namespace BorrowingsService.Models
     {
         [Key]
         public int Id { get; set; }
-        public string idCustomer { get; set; }
-        public string idBook { get; set; }
-        public DateTime from { get; set; }
-        public DateTime to { get; set; }
+        [Required]
+        public string CustomerId { get; set; }
+        [Required]
+        public string BookId { get; set; }
+        [Required]
+        public DateTime FromData { get; set; }
+        [Required]
+        public DateTime ToData { get; set; }
     }
 }

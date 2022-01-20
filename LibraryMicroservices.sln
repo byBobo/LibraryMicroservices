@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BooksServices", "BooksServices\BooksServices.csproj", "{F44C92C6-987F-461C-AD9E-9E647A4950EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BooksServices", "BooksServices\BooksServices.csproj", "{F44C92C6-987F-461C-AD9E-9E647A4950EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomersService", "CustomersService\CustomersService.csproj", "{3AC98B7F-4BB7-429C-BEB1-46AB0F61E8C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomersService", "CustomersService\CustomersService.csproj", "{3AC98B7F-4BB7-429C-BEB1-46AB0F61E8C3}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A6190CF3-1B02-4A15-8639-9A7A87B561BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorrowingsService", "BorrowingsService\BorrowingsService.csproj", "{A3CEA481-F675-4B2B-BC5A-11BF6F55DCA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BorrowingsService", "BorrowingsService\BorrowingsService.csproj", "{A3CEA481-F675-4B2B-BC5A-11BF6F55DCA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "..\UnitTest\UnitTest.csproj", "{DD76DE28-99A4-4BDC-9C86-FC637523E9CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A3CEA481-F675-4B2B-BC5A-11BF6F55DCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3CEA481-F675-4B2B-BC5A-11BF6F55DCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3CEA481-F675-4B2B-BC5A-11BF6F55DCA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD76DE28-99A4-4BDC-9C86-FC637523E9CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD76DE28-99A4-4BDC-9C86-FC637523E9CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD76DE28-99A4-4BDC-9C86-FC637523E9CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD76DE28-99A4-4BDC-9C86-FC637523E9CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

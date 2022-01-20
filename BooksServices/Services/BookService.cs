@@ -20,20 +20,8 @@ namespace BooksService.Services
         public List<Book> Get() =>
             _books.Find(b => true).ToList();
 
-        // METTERE TRY-CATCH IN TUTTI I METODI DEL SERVICE??
-        public Book Get(string id)
-        {
-            try
-            {
-                return _books.Find<Book>(b => b.Id == id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                // log the exception
-                return null;
-            }
-        }
-
+        public Book Get(string id) =>
+            _books.Find<Book>(b => b.Id == id).FirstOrDefault();
 
         public Book Create(Book books)
         {

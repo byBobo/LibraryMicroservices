@@ -20,18 +20,8 @@ namespace CustomersService.Services
         public List<Customer> Get() =>
             _customers.Find(c => true).ToList();
         
-        // METTERE TRY-CATCH IN TUTTI I METODI DEL SERVICE??
-        public Customer Get(string id) 
-        {
-            try
-            {
-                return _customers.Find<Customer>(c => c.Id == id).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
+        public Customer Get(string id) =>
+            _customers.Find<Customer>(c => c.Id == id).FirstOrDefault();
             
 
         public Customer Create(Customer customer)

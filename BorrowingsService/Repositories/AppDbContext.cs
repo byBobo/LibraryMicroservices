@@ -1,7 +1,8 @@
 ﻿using BorrowingsService.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
-namespace BorrowingsService.Data
+namespace BorrowingsService.Repositories
 {
     public class AppDbContext : DbContext
     {
@@ -10,5 +11,6 @@ namespace BorrowingsService.Data
         }
 
         public DbSet<Borrowing> Borrowings { get; set; }
+
     }
 }
