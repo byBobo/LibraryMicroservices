@@ -1,0 +1,85 @@
+version: '3.4'
+
+services:
+  booksservices:
+    image: booksservices:dev
+    container_name: BooksServices
+    build:
+      target: base
+      labels:
+        com.microsoft.created-by: "visual-studio"
+        com.microsoft.visual-studio.project-name: "BooksServices"
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+      - NUGET_FALLBACK_PACKAGES=
+    volumes:
+      - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservicesV2\src\LibraryMicroservices\BooksServices:/app
+      - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservicesV2\src\LibraryMicroservices:/src
+      - C:\Users\FrancescoBoero\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\FrancescoBoero\.nuget\packages\:/root/.nuget/packages:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+    entrypoint: tail -f /dev/null
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "dotnet"
+      com.microsoft.visualstudio.debuggee.arguments: " --additionalProbingPath /root/.nuget/packages  \"/app/bin/Debug/net5.0/BooksServices.dll\""
+      com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+    tty: true
+  borrowingsservice:
+    image: borrowingsservice:dev
+    container_name: BorrowingsService
+    build:
+      target: base
+      labels:
+        com.microsoft.created-by: "visual-studio"
+        com.microsoft.visual-studio.project-name: "BorrowingsService"
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+      - NUGET_FALLBACK_PACKAGES=
+    volumes:
+      - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservicesV2\src\LibraryMicroservices\BorrowingsService:/app
+      - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservicesV2\src\LibraryMicroservices:/src
+      - C:\Users\FrancescoBoero\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\FrancescoBoero\.nuget\packages\:/root/.nuget/packages:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+    entrypoint: tail -f /dev/null
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "dotnet"
+      com.microsoft.visualstudio.debuggee.arguments: " --additionalProbingPath /root/.nuget/packages  \"/app/bin/Debug/net5.0/BorrowingsService.dll\""
+      com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+    tty: true
+
+  customersservice:
+    image: customersservice:dev
+    container_name: CustomersService
+    build:
+      target: base
+      labels:
+        com.microsoft.created-by: "visual-studio"
+        com.microsoft.visual-studio.project-name: "CustomersService"
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+      - NUGET_FALLBACK_PACKAGES=
+    volumes:
+      - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservicesV2\src\LibraryMicroservices\CustomersService:/app
+      - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservicesV2\src\LibraryMicroservices:/src
+      - C:\Users\FrancescoBoero\vsdbg\vs2017u5:/remote_debugger:rw
+      - C:\Users\FrancescoBoero\.nuget\packages\:/root/.nuget/packages:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+    entrypoint: tail -f /dev/null
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "dotnet"
+      com.microsoft.visualstudio.debuggee.arguments: " --additionalProbingPath /root/.nuget/packages  \"/app/bin/Debug/net5.0/CustomersService.dll\""
+      com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+    tty: true

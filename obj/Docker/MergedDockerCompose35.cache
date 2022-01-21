@@ -1,0 +1,100 @@
+networks:
+  elastic:
+    driver: bridge
+services:
+  booksservices:
+    build:
+      context: C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices
+      dockerfile: BooksServices/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: booksservices
+    ports:
+    - target: 80
+    - published: 44301
+      target: 443
+    - target: 443
+    volumes:
+    - C:\Users\FrancescoBoero\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\FrancescoBoero\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  borrowingsservice:
+    build:
+      context: C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices
+      dockerfile: BorrowingsService/Dockerfile
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: borrowingsservice
+    ports:
+    - target: 80
+    - published: 44303
+      target: 443
+    - target: 443
+    volumes:
+    - C:\Users\FrancescoBoero\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\FrancescoBoero\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  customersservice:
+    build:
+      context: C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices
+      dockerfile: CustomersService/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: customersservice
+    ports:
+    - target: 80
+    - published: 44302
+      target: 443
+    - target: 443
+    volumes:
+    - C:\Users\FrancescoBoero\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\FrancescoBoero\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  db:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: 1Secure*Password1
+    image: mcr.microsoft.com/mssql/server:2017-latest
+  es01:
+    container_name: es01
+    environment:
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      bootstrap.memory_lock: "true"
+      cluster.initial_master_nodes: es01
+      cluster.name: es-docker-cluster
+      node.name: es01
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+    networks:
+      elastic: {}
+    ports:
+    - published: 9200
+      target: 9200
+    ulimits:
+      max_map_count: 262144
+      memlock:
+        hard: -1
+        soft: -1
+      nofile:
+        hard: 65535
+        soft: 65535
+    volumes:
+    - data01:/usr/share/elasticsearch/data:rw
+  kib01:
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://es01:9200
+      ELASTICSEARCH_URL: http://es01:9200
+    image: docker.elastic.co/kibana/kibana:7.9.2
+    networks:
+      elastic: {}
+    ports:
+    - published: 5601
+      target: 5601
+version: '3.4'
+volumes:
+  data01:
+    driver: local
+  dbdata: {}

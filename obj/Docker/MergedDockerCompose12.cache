@@ -1,0 +1,156 @@
+networks:
+  elastic:
+    driver: bridge
+services:
+  booksservices:
+    build:
+      context: C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices
+      dockerfile: BooksServices/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: BooksServices
+      target: base
+    container_name: BooksServices
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+    image: booksservices:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net5.0/BooksServices.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - target: 80
+    - published: 44301
+      target: 443
+    - target: 443
+    tty: true
+    volumes:
+    - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices\BooksServices:/app:rw
+    - C:\Users\FrancescoBoero\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\FrancescoBoero\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\FrancescoBoero\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Users\FrancescoBoero\.nuget\packages:/root/.nuget/packages:ro
+    - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices:/src:rw
+  borrowingsservice:
+    build:
+      context: C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices
+      dockerfile: BorrowingsService/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: BorrowingsService
+      target: base
+    container_name: BorrowingsService
+    depends_on:
+      db:
+        condition: service_started
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+    image: borrowingsservice:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net5.0/BorrowingsService.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - target: 80
+    - published: 44303
+      target: 443
+    - target: 443
+    tty: true
+    volumes:
+    - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices\BorrowingsService:/app:rw
+    - C:\Users\FrancescoBoero\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\FrancescoBoero\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\FrancescoBoero\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Users\FrancescoBoero\.nuget\packages:/root/.nuget/packages:ro
+    - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices:/src:rw
+  customersservice:
+    build:
+      context: C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices
+      dockerfile: CustomersService/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: CustomersService
+      target: base
+    container_name: CustomersService
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: ''
+    image: customersservice:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net5.0/CustomersService.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - target: 80
+    - published: 44302
+      target: 443
+    - target: 443
+    tty: true
+    volumes:
+    - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices\CustomersService:/app:rw
+    - C:\Users\FrancescoBoero\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\FrancescoBoero\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\FrancescoBoero\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Users\FrancescoBoero\.nuget\packages:/root/.nuget/packages:ro
+    - C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices:/src:rw
+  db:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: 1Secure*Password1
+    image: mcr.microsoft.com/mssql/server:2017-latest
+  es01:
+    container_name: elasticsearch
+    environment:
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      bootstrap.memory: lock=true
+      clustar.name: es-docker-cluster
+      cluster.initial_master_nodes: es01
+      node.name: es01
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.0
+    networks:
+      elastic: {}
+    ports:
+    - published: 9200
+      target: 9200
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+    volumes:
+    - data01:/usr/share/elasticsearch/data:rw
+  kib01:
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://es01:9200
+      ELASTICSEARCH_URL: http://es01:9200
+    image: docker.elastic.co/kibana/kibana:7.9.0
+    networks:
+      elastic: {}
+    ports:
+    - published: 5601
+      target: 5601
+version: '3.4'
+volumes:
+  data01:
+    driver: local
+  dbdata: {}

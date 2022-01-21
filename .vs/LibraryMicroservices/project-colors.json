@@ -1,0 +1,61 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "3ac98b7f-4bb7-429c-beb1-46ab0f61e8c3": {
+      "ProjectGuid": "3ac98b7f-4bb7-429c-beb1-46ab0f61e8c3",
+      "DisplayName": "CustomersService",
+      "ColorIndex": 0
+    },
+    "a3cea481-f675-4b2b-bc5a-11bf6f55dca9": {
+      "ProjectGuid": "a3cea481-f675-4b2b-bc5a-11bf6f55dca9",
+      "DisplayName": "BorrowingsService",
+      "ColorIndex": 1
+    },
+    "f44c92c6-987f-461c-ad9e-9e647a4950ef": {
+      "ProjectGuid": "f44c92c6-987f-461c-ad9e-9e647a4950ef",
+      "DisplayName": "BooksServices",
+      "ColorIndex": 2
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "a6190cf3-1b02-4a15-8639-9a7a87b561bb": {
+      "ProjectGuid": "a6190cf3-1b02-4a15-8639-9a7a87b561bb",
+      "DisplayName": "docker-compose",
+      "ColorIndex": 3
+    },
+    "42b8ac69-233d-42e9-8219-4e5df78d61f7": {
+      "ProjectGuid": "42b8ac69-233d-42e9-8219-4e5df78d61f7",
+      "DisplayName": "UnitTest",
+      "ColorIndex": 4
+    },
+    "f9ba091b-c4aa-4e94-b290-361ec089c808": {
+      "ProjectGuid": "f9ba091b-c4aa-4e94-b290-361ec089c808",
+      "DisplayName": "UnitTest",
+      "ColorIndex": 5
+    },
+    "dd76de28-99a4-4bdc-9c86-fc637523e9cc": {
+      "ProjectGuid": "dd76de28-99a4-4bdc-9c86-fc637523e9cc",
+      "DisplayName": "UnitTest",
+      "ColorIndex": 6
+    },
+    "ee462863-79c7-46c4-9f33-23499e8f7f29": {
+      "ProjectGuid": "ee462863-79c7-46c4-9f33-23499e8f7f29",
+      "DisplayName": "UnitTest",
+      "ColorIndex": 7
+    },
+    "ff9aeb71-149c-4289-9063-54db0f9cd34c": {
+      "ProjectGuid": "ff9aeb71-149c-4289-9063-54db0f9cd34c",
+      "DisplayName": "UnitTest",
+      "ColorIndex": 8
+    },
+    "5bfae647-83f6-4101-b3ad-45802a40cf6f": {
+      "ProjectGuid": "5bfae647-83f6-4101-b3ad-45802a40cf6f",
+      "DisplayName": "UnitTest",
+      "ColorIndex": 9
+    }
+  },
+  "NextColorIndex": 10
+}

@@ -1,0 +1,100 @@
+networks:
+  elastic:
+    driver: bridge
+services:
+  booksservices:
+    build:
+      context: C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices
+      dockerfile: BooksServices/Dockerfile
+    depends_on:
+      elasticsearch:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: booksservices
+    ports:
+    - target: 80
+    - published: 44301
+      target: 443
+    - target: 443
+    volumes:
+    - C:\Users\FrancescoBoero\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\FrancescoBoero\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  borrowingsservice:
+    build:
+      context: C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices
+      dockerfile: BorrowingsService/Dockerfile
+    depends_on:
+      db:
+        condition: service_started
+      elasticsearch:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: borrowingsservice
+    ports:
+    - target: 80
+    - published: 44303
+      target: 443
+    - target: 443
+    volumes:
+    - C:\Users\FrancescoBoero\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\FrancescoBoero\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  customersservice:
+    build:
+      context: C:\Users\FrancescoBoero\Desktop\work in progress\LibraryMicroservices\LibraryMicroservices
+      dockerfile: CustomersService/Dockerfile
+    depends_on:
+      elasticsearch:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: customersservice
+    ports:
+    - target: 80
+    - published: 44302
+      target: 443
+    - target: 443
+    volumes:
+    - C:\Users\FrancescoBoero\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\FrancescoBoero\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+  db:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: 1Secure*Password1
+    image: mcr.microsoft.com/mssql/server:2017-latest
+  elasticsearch:
+    container_name: elasticsearch
+    environment:
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      discovery.type: single-node
+      xpack.monitoring.enabled: "true"
+      xpack.watcher.enabled: "false"
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+    networks:
+      elastic: {}
+    ports:
+    - published: 9200
+      target: 9200
+    volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data:rw
+  kibana:
+    container_name: kibana
+    depends_on:
+      elasticsearch:
+        condition: service_started
+    environment:
+      ELASTICSEARCH_URL: http://localhost:9200
+    image: docker.elastic.co/kibana/kibana:7.9.2
+    networks:
+      elastic: {}
+    ports:
+    - published: 5601
+      target: 5601
+version: '3.4'
+volumes:
+  dbdata: {}
+  elasticsearch-data: {}
